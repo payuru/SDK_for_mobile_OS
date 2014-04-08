@@ -16,21 +16,29 @@
 3. 	Проверить статус заказа
 
   а) Создаем объект HttpRequest, при необходимости передаем Callback
+  
   б) Выполняем checkOrder()
+  
   в) Выполняем execute()
 
 4.   Отправить сообщение по протоколу IDN
 
   а) Создаем объект NotificationBuilder с параметром NOTIFICATION_TYPE_DELIVERY, наполняем его данными с помощью соответствующих методов
+  
   б) Создаем объект HttpRequest, при необходимости передаем Callback
+  
   в) Выполняем sendDeliveryNotification ()
+  
   г) Выполняем execute()
 
 5. 	Отправить сообщение по протоколу IRN
 
   а) Создаем объект NotificationBuilder с параметром NOTIFICATION_TYPE_REFUND, наполняем его данными с помощью соответствующих методов
+  
   б) Создаем объект HttpRequest, при необходимости передаем Callback
+  
   в) Выполняем sendRefundNotification ()
+  
   г) Выполняем execute()
 
 HttpRequest
