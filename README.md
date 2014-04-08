@@ -1,1 +1,1 @@
-В этом месте находится SDK для IOS и Android.
+PayU SDK для мобильных платформ iOS и Android
