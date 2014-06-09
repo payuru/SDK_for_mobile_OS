@@ -77,7 +77,8 @@
     [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[orderDetails valueForKey:@"ORDER_DATE"] length],[orderDetails valueForKey:@"ORDER_DATE"]] atIndex:2];
     
     for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"]) {
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PNAME[]"] length],[product valueForKey:@"ORDER_PNAME[]"]] atIndex:3];
+        NSString *name = [product valueForKey:@"ORDER_PNAME[]"];
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[name lengthOfBytesUsingEncoding:NSUTF8StringEncoding], name] atIndex:3];
         [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PCODE[]"] length],[product valueForKey:@"ORDER_PCODE[]"]] atIndex:4];
         [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PRICE[]"] length],[product valueForKey:@"ORDER_PRICE[]"]] atIndex:5];
         [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_QTY[]"] length],[product valueForKey:@"ORDER_QTY[]"]] atIndex:6];
