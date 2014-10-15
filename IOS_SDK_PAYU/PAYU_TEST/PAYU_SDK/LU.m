@@ -41,16 +41,35 @@
         NSString *encodedKey = key;
         
         if ([key isEqualToString:@"PRODUCTS"]) {
-            for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"]) {
-                for (NSString *_key in product.allKeys) {
+            
+            int index = 0;
+			
+            for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"])
+			{
+				int offset = 0;
+				
+                for (NSString *_key in product.allKeys)
+				{
                     NSString *_encodedValue = [product objectForKey:_key];
                     NSString *_encodedKey = _key;
                     NSString *part = [NSString stringWithFormat:@"%@=%@", _encodedKey, _encodedValue];
-                    [parts addObject:part];
+					
+                    if (index>0)
+					{
+                        [parts insertObject:part atIndex: 10 + offset];
+                        offset += index + 1;
+                    }
+					else
+					{
+                        [parts addObject:part];
+                    }
                 }
+				
+                index++;
             }
         }
-        else{
+        else
+		{
             NSString *part = [NSString stringWithFormat:@"%@=%@", encodedKey, encodedValue];
             [parts addObject:part];
         }
@@ -76,17 +95,27 @@
     [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[orderDetails valueForKey:@"ORDER_REF"] length],[orderDetails valueForKey:@"ORDER_REF"]] atIndex:1];
     [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[orderDetails valueForKey:@"ORDER_DATE"] length],[orderDetails valueForKey:@"ORDER_DATE"]] atIndex:2];
     
-    for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"]) {
+    int index = 0;
+    for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"])
+	{
+		int offset = 0;
         NSString *name = [product valueForKey:@"ORDER_PNAME[]"];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[name lengthOfBytesUsingEncoding:NSUTF8StringEncoding], name] atIndex:3];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PCODE[]"] length],[product valueForKey:@"ORDER_PCODE[]"]] atIndex:4];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PRICE[]"] length],[product valueForKey:@"ORDER_PRICE[]"]] atIndex:5];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_QTY[]"] length],[product valueForKey:@"ORDER_QTY[]"]] atIndex:6];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_VAT[]"] length],[product valueForKey:@"ORDER_VAT[]"]] atIndex:7];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_SHIPPING[]"] length],[product valueForKey:@"ORDER_SHIPPING[]"]] atIndex:8];
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[name lengthOfBytesUsingEncoding:NSUTF8StringEncoding], name] atIndex:3+offset * index];
+        if (index>0) offset++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PCODE[]"] length],[product valueForKey:@"ORDER_PCODE[]"]] atIndex:4+offset * index];
+        if (index>0) offset++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PRICE[]"] length],[product valueForKey:@"ORDER_PRICE[]"]] atIndex:5+offset * index];
+        if (index>0) offset++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_QTY[]"] length],[product valueForKey:@"ORDER_QTY[]"]] atIndex:6+offset * index];
+        if (index>0) offset++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_VAT[]"] length],[product valueForKey:@"ORDER_VAT[]"]] atIndex:7+offset * index];
+        if (index>0) offset++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_SHIPPING[]"] length],[product valueForKey:@"ORDER_SHIPPING[]"]] atIndex:8+offset * index];
+        
+        index++;
     }
-
-
+	
+	
     NSString *postString = [parts componentsJoinedByString:@"&"];
     NSString *hashString = [hashs componentsJoinedByString:@""];
     NSString *hmac = [self HMACWithSourceAndSecret:hashString secret:SECRET_KEY];
@@ -98,7 +127,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://secure.payu.ru/order/lu.php"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0f];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:postData];
-
+	
     return request;
 }
 

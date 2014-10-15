@@ -179,15 +179,34 @@
     //данные продукта №1
     NSMutableDictionary *product_1 = [NSMutableDictionary new];
     [product_1 setValue:@"test" forKey:@"ORDER_PNAME[]"];
-    [product_1 setValue:@"112" forKey:@"ORDER_PCODE[]"];
+    [product_1 setValue:@"111" forKey:@"ORDER_PCODE[]"];
     [product_1 setValue:@"1" forKey:@"ORDER_PRICE[]"];
     [product_1 setValue:@"1" forKey:@"ORDER_QTY[]"];
     [product_1 setValue:@"1" forKey:@"ORDER_VAT[]"];
     [product_1 setValue:@"1" forKey:@"ORDER_SHIPPING[]"];
     
+    NSMutableDictionary *product_2 = [NSMutableDictionary new];
+    [product_2 setValue:@"test2" forKey:@"ORDER_PNAME[]"];
+    [product_2 setValue:@"112" forKey:@"ORDER_PCODE[]"];
+    [product_2 setValue:@"2" forKey:@"ORDER_PRICE[]"];
+    [product_2 setValue:@"1" forKey:@"ORDER_QTY[]"];
+    [product_2 setValue:@"2" forKey:@"ORDER_VAT[]"];
+    [product_2 setValue:@"2" forKey:@"ORDER_SHIPPING[]"];
+    
+    NSMutableDictionary *product_3 = [NSMutableDictionary new];
+    [product_3 setValue:@"test3" forKey:@"ORDER_PNAME[]"];
+    [product_3 setValue:@"113" forKey:@"ORDER_PCODE[]"];
+    [product_3 setValue:@"3" forKey:@"ORDER_PRICE[]"];
+    [product_3 setValue:@"1" forKey:@"ORDER_QTY[]"];
+    [product_3 setValue:@"3" forKey:@"ORDER_VAT[]"];
+    [product_3 setValue:@"3" forKey:@"ORDER_SHIPPING[]"];
+    
     
     //задаем продукты заказу
     [products addObject:product_1];
+    [products addObject:product_2];
+    [products addObject:product_3];
+    
     [orderDetails setObject:products forKey:@"PRODUCTS"];
     
     LU *lu = [[LU alloc] initWithSecretKey:@"8~Z4?t6[c~_o4)8=R4p2"];
