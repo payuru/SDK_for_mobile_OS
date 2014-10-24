@@ -42,11 +42,13 @@
         
         if ([key isEqualToString:@"PRODUCTS"]) {
             
-            int index = 0;
+            int i = 0;
+			
+			int partsCount = (int)parts.count;
 			
             for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"])
 			{
-				int offset = 0;
+				int index = 0;
 				
                 for (NSString *_key in product.allKeys)
 				{
@@ -54,10 +56,10 @@
                     NSString *_encodedKey = _key;
                     NSString *part = [NSString stringWithFormat:@"%@=%@", _encodedKey, _encodedValue];
 					
-                    if (index>0)
+                    if (i>0)
 					{
-                        [parts insertObject:part atIndex: 10 + offset];
-                        offset += index + 1;
+                        [parts insertObject:part atIndex: partsCount + index];
+                        index += i + 1;
                     }
 					else
 					{
@@ -65,7 +67,7 @@
                     }
                 }
 				
-                index++;
+                i++;
             }
         }
         else
@@ -95,24 +97,24 @@
     [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[orderDetails valueForKey:@"ORDER_REF"] length],[orderDetails valueForKey:@"ORDER_REF"]] atIndex:1];
     [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[orderDetails valueForKey:@"ORDER_DATE"] length],[orderDetails valueForKey:@"ORDER_DATE"]] atIndex:2];
     
-    int index = 0;
+    int i = 0;
     for (NSMutableDictionary *product in [orderDetails objectForKey:@"PRODUCTS"])
 	{
-		int offset = 0;
+		int index = 0;
         NSString *name = [product valueForKey:@"ORDER_PNAME[]"];
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[name lengthOfBytesUsingEncoding:NSUTF8StringEncoding], name] atIndex:3+offset * index];
-        if (index>0) offset++;
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PCODE[]"] length],[product valueForKey:@"ORDER_PCODE[]"]] atIndex:4+offset * index];
-        if (index>0) offset++;
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PRICE[]"] length],[product valueForKey:@"ORDER_PRICE[]"]] atIndex:5+offset * index];
-        if (index>0) offset++;
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_QTY[]"] length],[product valueForKey:@"ORDER_QTY[]"]] atIndex:6+offset * index];
-        if (index>0) offset++;
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_VAT[]"] length],[product valueForKey:@"ORDER_VAT[]"]] atIndex:7+offset * index];
-        if (index>0) offset++;
-        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_SHIPPING[]"] length],[product valueForKey:@"ORDER_SHIPPING[]"]] atIndex:8+offset * index];
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[name lengthOfBytesUsingEncoding:NSUTF8StringEncoding], name] atIndex:3+index * i];
+        if (i>0) index++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PCODE[]"] length],[product valueForKey:@"ORDER_PCODE[]"]] atIndex:4+index * i];
+        if (i>0) index++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_PRICE[]"] length],[product valueForKey:@"ORDER_PRICE[]"]] atIndex:5+index * i];
+        if (i>0) index++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_QTY[]"] length],[product valueForKey:@"ORDER_QTY[]"]] atIndex:6+index * i];
+        if (i>0) index++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_VAT[]"] length],[product valueForKey:@"ORDER_VAT[]"]] atIndex:7+index * i];
+        if (i>0) index++;
+        [hashs insertObject:[NSString stringWithFormat:@"%d%@",[[product valueForKey:@"ORDER_SHIPPING[]"] length],[product valueForKey:@"ORDER_SHIPPING[]"]] atIndex:8+index * i];
         
-        index++;
+        i++;
     }
 	
 	
